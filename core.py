@@ -28,7 +28,7 @@ def read_schedule(filename: str) -> (str, str):
 
     return ',\n'.join(events), current_date.replace("'", '')
 
-def render(filename: str) -> str:
+def render(filename: str) -> None: 
     OUT = './calendar-20/out.html'
     events_str, current_date = read_schedule(filename)
 
