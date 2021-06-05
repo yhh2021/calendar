@@ -1,9 +1,12 @@
 import json
+import webbrowser
+import abbrs
 import pandas as pd
 
-def read_schedule(filename: str) -> str:
+def read_schedule(filename: str) -> (str, str):
     dat = pd.read_excel(filename)
     date_col_name = dat.columns[0]
+    current_date = None
 
     events = [ ]
 
@@ -20,4 +23,17 @@ def read_schedule(filename: str) -> str:
                     start: {date}
                 }}''')
 
-    return ',\n'.join(events)
+                if current_date == None:
+                    current_date = date
+
+    return ',\n'.join(events), current_date.replace("'", '')
+
+def render(filename: str) -> str:
+    OUT = './calendar-20/out.html'
+    events_str, current_date = read_schedule(filename)
+
+    template = abbrs.read_file('calendar-20/template.html')
+    template = template.replace('TODAY_STR', current_date).replace('EVENTS_STR', events_str)
+
+    abbrs.write_file(OUT, template)
+    webbrowser.open(OUT)
