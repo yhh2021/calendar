@@ -37,3 +37,8 @@ def render(filename: str) -> None:
 
     abbrs.write_file(OUT, template)
     webbrowser.open(OUT)
+
+if __name__ == '__main__':
+    FILE = './calendar.xls'
+    print(f'Parsing f{FILE}.')
+    render(FILE)
